@@ -109,6 +109,10 @@ class UwuLexer(object):
         t.value = int(t.value)
         return t
 
+    @TOKEN(string_literal)
+    def t_STRINGLITERAL(self, t):
+        return t
+
     @TOKEN(newline)
     def t_newline(self, t):
         t.lexer.lineno += len(t.value)
