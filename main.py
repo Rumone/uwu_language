@@ -1,13 +1,21 @@
 from uwu_lexer import UwuLexer
+from uwu_parser import UwuParser
 
-t = UwuLexer()
-t.build()
-t.test(
+# def error ():
+#     pass
+# t = UwuLexer(error_func=error)
+# t.build()
+# t.test(
+#     '''
+#     > 
+#     '''
+# )
+
+# TODO issue with > symbol 
+foo = UwuParser()
+print(foo.parse(
     '''
-    var x:int=12;
-    var name:string = "Rumone";
-    # func sum(a:int, b:int):int -> {
-    #     return a + b;
-    # } 
+    var a : int
     '''
-)
+))
+

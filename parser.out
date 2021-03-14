@@ -1,0 +1,1087 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ARROW
+    BREAK
+    CATCH
+    COMMA
+    COMMENT
+    CONTINUE
+    ELSE
+    ELSEIF
+    FALSE
+    FOR
+    FUNC
+    IF
+    IN
+    LBRACE
+    LBRACKET
+    PERIOD
+    RBRACE
+    RBRACKET
+    RETURN
+    SEMI
+    STRINGLITERAL
+    TRUE
+    TRY
+    WHILE
+
+Grammar
+
+Rule 0     S' -> statement
+Rule 1     statement -> expression
+Rule 2     statement -> assignment
+Rule 3     assignment -> identifier EQUAL expression
+Rule 4     var_init -> decl EQUAL expression
+Rule 5     decl -> VAR identifier COLON decl_type
+Rule 6     decl -> VAR identifier
+Rule 7     decl_type -> INT
+Rule 8     decl_type -> FLOAT
+Rule 9     decl_type -> STRING
+Rule 10    expression -> binary_expression
+Rule 11    binary_expression -> binary_expression PLUS binary_expression
+Rule 12    binary_expression -> binary_expression MINUS binary_expression
+Rule 13    binary_expression -> binary_expression MULT binary_expression
+Rule 14    binary_expression -> binary_expression DIVIDE binary_expression
+Rule 15    binary_expression -> binary_expression MOD binary_expression
+Rule 16    binary_expression -> binary_expression AND binary_expression
+Rule 17    binary_expression -> binary_expression OR binary_expression
+Rule 18    binary_expression -> binary_expression IS binary_expression
+Rule 19    binary_expression -> binary_expression NOT binary_expression
+Rule 20    binary_expression -> binary_expression GT binary_expression
+Rule 21    binary_expression -> binary_expression LT binary_expression
+Rule 22    binary_expression -> LPAREN binary_expression RPAREN
+Rule 23    binary_expression -> identifier
+Rule 24    identifier -> ID
+
+Terminals, with rules where they appear
+
+AND                  : 16
+ARROW                : 
+BREAK                : 
+CATCH                : 
+COLON                : 5
+COMMA                : 
+COMMENT              : 
+CONTINUE             : 
+DIVIDE               : 14
+ELSE                 : 
+ELSEIF               : 
+EQUAL                : 3 4
+FALSE                : 
+FLOAT                : 8
+FOR                  : 
+FUNC                 : 
+GT                   : 20
+ID                   : 24
+IF                   : 
+IN                   : 
+INT                  : 7
+IS                   : 18
+LBRACE               : 
+LBRACKET             : 
+LPAREN               : 22
+LT                   : 21
+MINUS                : 12
+MOD                  : 15
+MULT                 : 13
+NOT                  : 19
+OR                   : 17
+PERIOD               : 
+PLUS                 : 11
+RBRACE               : 
+RBRACKET             : 
+RETURN               : 
+RPAREN               : 22
+SEMI                 : 
+STRING               : 9
+STRINGLITERAL        : 
+TRUE                 : 
+TRY                  : 
+VAR                  : 5 6
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+assignment           : 2
+binary_expression    : 10 11 11 12 12 13 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22
+decl                 : 4
+decl_type            : 5
+expression           : 1 3 4
+identifier           : 3 5 6 23
+statement            : 0
+var_init             : 
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . statement
+    (1) statement -> . expression
+    (2) statement -> . assignment
+    (10) expression -> . binary_expression
+    (3) assignment -> . identifier EQUAL expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    statement                      shift and go to state 1
+    expression                     shift and go to state 2
+    assignment                     shift and go to state 3
+    binary_expression              shift and go to state 4
+    identifier                     shift and go to state 5
+
+state 1
+
+    (0) S' -> statement .
+
+
+
+state 2
+
+    (1) statement -> expression .
+
+    $end            reduce using rule 1 (statement -> expression .)
+
+
+state 3
+
+    (2) statement -> assignment .
+
+    $end            reduce using rule 2 (statement -> assignment .)
+
+
+state 4
+
+    (10) expression -> binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    $end            reduce using rule 10 (expression -> binary_expression .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+    AND             shift and go to state 13
+    OR              shift and go to state 14
+    IS              shift and go to state 15
+    NOT             shift and go to state 16
+    GT              shift and go to state 17
+    LT              shift and go to state 18
+
+
+state 5
+
+    (3) assignment -> identifier . EQUAL expression
+    (23) binary_expression -> identifier .
+
+    EQUAL           shift and go to state 19
+    PLUS            reduce using rule 23 (binary_expression -> identifier .)
+    MINUS           reduce using rule 23 (binary_expression -> identifier .)
+    MULT            reduce using rule 23 (binary_expression -> identifier .)
+    DIVIDE          reduce using rule 23 (binary_expression -> identifier .)
+    MOD             reduce using rule 23 (binary_expression -> identifier .)
+    AND             reduce using rule 23 (binary_expression -> identifier .)
+    OR              reduce using rule 23 (binary_expression -> identifier .)
+    IS              reduce using rule 23 (binary_expression -> identifier .)
+    NOT             reduce using rule 23 (binary_expression -> identifier .)
+    GT              reduce using rule 23 (binary_expression -> identifier .)
+    LT              reduce using rule 23 (binary_expression -> identifier .)
+    $end            reduce using rule 23 (binary_expression -> identifier .)
+
+
+state 6
+
+    (22) binary_expression -> LPAREN . binary_expression RPAREN
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 20
+    identifier                     shift and go to state 21
+
+state 7
+
+    (24) identifier -> ID .
+
+    EQUAL           reduce using rule 24 (identifier -> ID .)
+    PLUS            reduce using rule 24 (identifier -> ID .)
+    MINUS           reduce using rule 24 (identifier -> ID .)
+    MULT            reduce using rule 24 (identifier -> ID .)
+    DIVIDE          reduce using rule 24 (identifier -> ID .)
+    MOD             reduce using rule 24 (identifier -> ID .)
+    AND             reduce using rule 24 (identifier -> ID .)
+    OR              reduce using rule 24 (identifier -> ID .)
+    IS              reduce using rule 24 (identifier -> ID .)
+    NOT             reduce using rule 24 (identifier -> ID .)
+    GT              reduce using rule 24 (identifier -> ID .)
+    LT              reduce using rule 24 (identifier -> ID .)
+    $end            reduce using rule 24 (identifier -> ID .)
+    RPAREN          reduce using rule 24 (identifier -> ID .)
+
+
+state 8
+
+    (11) binary_expression -> binary_expression PLUS . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 22
+    identifier                     shift and go to state 21
+
+state 9
+
+    (12) binary_expression -> binary_expression MINUS . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 23
+    identifier                     shift and go to state 21
+
+state 10
+
+    (13) binary_expression -> binary_expression MULT . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 24
+    identifier                     shift and go to state 21
+
+state 11
+
+    (14) binary_expression -> binary_expression DIVIDE . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 25
+    identifier                     shift and go to state 21
+
+state 12
+
+    (15) binary_expression -> binary_expression MOD . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 26
+    identifier                     shift and go to state 21
+
+state 13
+
+    (16) binary_expression -> binary_expression AND . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 27
+    identifier                     shift and go to state 21
+
+state 14
+
+    (17) binary_expression -> binary_expression OR . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 28
+    identifier                     shift and go to state 21
+
+state 15
+
+    (18) binary_expression -> binary_expression IS . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 29
+    identifier                     shift and go to state 21
+
+state 16
+
+    (19) binary_expression -> binary_expression NOT . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 30
+    identifier                     shift and go to state 21
+
+state 17
+
+    (20) binary_expression -> binary_expression GT . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 31
+    identifier                     shift and go to state 21
+
+state 18
+
+    (21) binary_expression -> binary_expression LT . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    binary_expression              shift and go to state 32
+    identifier                     shift and go to state 21
+
+state 19
+
+    (3) assignment -> identifier EQUAL . expression
+    (10) expression -> . binary_expression
+    (11) binary_expression -> . binary_expression PLUS binary_expression
+    (12) binary_expression -> . binary_expression MINUS binary_expression
+    (13) binary_expression -> . binary_expression MULT binary_expression
+    (14) binary_expression -> . binary_expression DIVIDE binary_expression
+    (15) binary_expression -> . binary_expression MOD binary_expression
+    (16) binary_expression -> . binary_expression AND binary_expression
+    (17) binary_expression -> . binary_expression OR binary_expression
+    (18) binary_expression -> . binary_expression IS binary_expression
+    (19) binary_expression -> . binary_expression NOT binary_expression
+    (20) binary_expression -> . binary_expression GT binary_expression
+    (21) binary_expression -> . binary_expression LT binary_expression
+    (22) binary_expression -> . LPAREN binary_expression RPAREN
+    (23) binary_expression -> . identifier
+    (24) identifier -> . ID
+
+    LPAREN          shift and go to state 6
+    ID              shift and go to state 7
+
+    identifier                     shift and go to state 21
+    expression                     shift and go to state 33
+    binary_expression              shift and go to state 4
+
+state 20
+
+    (22) binary_expression -> LPAREN binary_expression . RPAREN
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    RPAREN          shift and go to state 34
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+    AND             shift and go to state 13
+    OR              shift and go to state 14
+    IS              shift and go to state 15
+    NOT             shift and go to state 16
+    GT              shift and go to state 17
+    LT              shift and go to state 18
+
+
+state 21
+
+    (23) binary_expression -> identifier .
+
+    RPAREN          reduce using rule 23 (binary_expression -> identifier .)
+    PLUS            reduce using rule 23 (binary_expression -> identifier .)
+    MINUS           reduce using rule 23 (binary_expression -> identifier .)
+    MULT            reduce using rule 23 (binary_expression -> identifier .)
+    DIVIDE          reduce using rule 23 (binary_expression -> identifier .)
+    MOD             reduce using rule 23 (binary_expression -> identifier .)
+    AND             reduce using rule 23 (binary_expression -> identifier .)
+    OR              reduce using rule 23 (binary_expression -> identifier .)
+    IS              reduce using rule 23 (binary_expression -> identifier .)
+    NOT             reduce using rule 23 (binary_expression -> identifier .)
+    GT              reduce using rule 23 (binary_expression -> identifier .)
+    LT              reduce using rule 23 (binary_expression -> identifier .)
+    $end            reduce using rule 23 (binary_expression -> identifier .)
+
+
+state 22
+
+    (11) binary_expression -> binary_expression PLUS binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    PLUS            reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    MINUS           reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    AND             reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    OR              reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    IS              reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    NOT             reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    GT              reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    LT              reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    $end            reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    RPAREN          reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .)
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+
+  ! MULT            [ reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .) ]
+  ! DIVIDE          [ reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .) ]
+  ! MOD             [ reduce using rule 11 (binary_expression -> binary_expression PLUS binary_expression .) ]
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+  ! GT              [ shift and go to state 17 ]
+  ! LT              [ shift and go to state 18 ]
+
+
+state 23
+
+    (12) binary_expression -> binary_expression MINUS binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    PLUS            reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    MINUS           reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    AND             reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    OR              reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    IS              reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    NOT             reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    GT              reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    LT              reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    $end            reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    RPAREN          reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .)
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+
+  ! MULT            [ reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .) ]
+  ! DIVIDE          [ reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .) ]
+  ! MOD             [ reduce using rule 12 (binary_expression -> binary_expression MINUS binary_expression .) ]
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+  ! GT              [ shift and go to state 17 ]
+  ! LT              [ shift and go to state 18 ]
+
+
+state 24
+
+    (13) binary_expression -> binary_expression MULT binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    PLUS            reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    MINUS           reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    MULT            reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    DIVIDE          reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    MOD             reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    AND             reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    OR              reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    IS              reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    NOT             reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    GT              reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    LT              reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    $end            reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+    RPAREN          reduce using rule 13 (binary_expression -> binary_expression MULT binary_expression .)
+
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+  ! MULT            [ shift and go to state 10 ]
+  ! DIVIDE          [ shift and go to state 11 ]
+  ! MOD             [ shift and go to state 12 ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+  ! GT              [ shift and go to state 17 ]
+  ! LT              [ shift and go to state 18 ]
+
+
+state 25
+
+    (14) binary_expression -> binary_expression DIVIDE binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    PLUS            reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    MINUS           reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    MULT            reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    DIVIDE          reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    MOD             reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    AND             reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    OR              reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    IS              reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    NOT             reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    GT              reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    LT              reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    $end            reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+    RPAREN          reduce using rule 14 (binary_expression -> binary_expression DIVIDE binary_expression .)
+
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+  ! MULT            [ shift and go to state 10 ]
+  ! DIVIDE          [ shift and go to state 11 ]
+  ! MOD             [ shift and go to state 12 ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+  ! GT              [ shift and go to state 17 ]
+  ! LT              [ shift and go to state 18 ]
+
+
+state 26
+
+    (15) binary_expression -> binary_expression MOD binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    PLUS            reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    MINUS           reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    MULT            reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    DIVIDE          reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    MOD             reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    AND             reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    OR              reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    IS              reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    NOT             reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    GT              reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    LT              reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    $end            reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+    RPAREN          reduce using rule 15 (binary_expression -> binary_expression MOD binary_expression .)
+
+  ! PLUS            [ shift and go to state 8 ]
+  ! MINUS           [ shift and go to state 9 ]
+  ! MULT            [ shift and go to state 10 ]
+  ! DIVIDE          [ shift and go to state 11 ]
+  ! MOD             [ shift and go to state 12 ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+  ! GT              [ shift and go to state 17 ]
+  ! LT              [ shift and go to state 18 ]
+
+
+state 27
+
+    (16) binary_expression -> binary_expression AND binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    AND             reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .)
+    OR              reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .)
+    $end            reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .)
+    RPAREN          reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+    IS              shift and go to state 15
+    NOT             shift and go to state 16
+    GT              shift and go to state 17
+    LT              shift and go to state 18
+
+  ! PLUS            [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! MINUS           [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! MULT            [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! DIVIDE          [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! MOD             [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! IS              [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! NOT             [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! GT              [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! LT              [ reduce using rule 16 (binary_expression -> binary_expression AND binary_expression .) ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+
+
+state 28
+
+    (17) binary_expression -> binary_expression OR binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    OR              reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .)
+    $end            reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .)
+    RPAREN          reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+    AND             shift and go to state 13
+    IS              shift and go to state 15
+    NOT             shift and go to state 16
+    GT              shift and go to state 17
+    LT              shift and go to state 18
+
+  ! PLUS            [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! MINUS           [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! MULT            [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! DIVIDE          [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! MOD             [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! AND             [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! IS              [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! NOT             [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! GT              [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! LT              [ reduce using rule 17 (binary_expression -> binary_expression OR binary_expression .) ]
+  ! OR              [ shift and go to state 14 ]
+
+
+state 29
+
+    (18) binary_expression -> binary_expression IS binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    AND             reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .)
+    OR              reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .)
+    IS              reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .)
+    NOT             reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .)
+    $end            reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .)
+    RPAREN          reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+    GT              shift and go to state 17
+    LT              shift and go to state 18
+
+  ! PLUS            [ reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .) ]
+  ! MINUS           [ reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .) ]
+  ! MULT            [ reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .) ]
+  ! DIVIDE          [ reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .) ]
+  ! MOD             [ reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .) ]
+  ! GT              [ reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .) ]
+  ! LT              [ reduce using rule 18 (binary_expression -> binary_expression IS binary_expression .) ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+
+
+state 30
+
+    (19) binary_expression -> binary_expression NOT binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    AND             reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .)
+    OR              reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .)
+    IS              reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .)
+    NOT             reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .)
+    $end            reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .)
+    RPAREN          reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+    GT              shift and go to state 17
+    LT              shift and go to state 18
+
+  ! PLUS            [ reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .) ]
+  ! MINUS           [ reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .) ]
+  ! MULT            [ reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .) ]
+  ! DIVIDE          [ reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .) ]
+  ! MOD             [ reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .) ]
+  ! GT              [ reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .) ]
+  ! LT              [ reduce using rule 19 (binary_expression -> binary_expression NOT binary_expression .) ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+
+
+state 31
+
+    (20) binary_expression -> binary_expression GT binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    AND             reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .)
+    OR              reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .)
+    IS              reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .)
+    NOT             reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .)
+    GT              reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .)
+    LT              reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .)
+    $end            reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .)
+    RPAREN          reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+
+  ! PLUS            [ reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .) ]
+  ! MINUS           [ reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .) ]
+  ! MULT            [ reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .) ]
+  ! DIVIDE          [ reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .) ]
+  ! MOD             [ reduce using rule 20 (binary_expression -> binary_expression GT binary_expression .) ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+  ! GT              [ shift and go to state 17 ]
+  ! LT              [ shift and go to state 18 ]
+
+
+state 32
+
+    (21) binary_expression -> binary_expression LT binary_expression .
+    (11) binary_expression -> binary_expression . PLUS binary_expression
+    (12) binary_expression -> binary_expression . MINUS binary_expression
+    (13) binary_expression -> binary_expression . MULT binary_expression
+    (14) binary_expression -> binary_expression . DIVIDE binary_expression
+    (15) binary_expression -> binary_expression . MOD binary_expression
+    (16) binary_expression -> binary_expression . AND binary_expression
+    (17) binary_expression -> binary_expression . OR binary_expression
+    (18) binary_expression -> binary_expression . IS binary_expression
+    (19) binary_expression -> binary_expression . NOT binary_expression
+    (20) binary_expression -> binary_expression . GT binary_expression
+    (21) binary_expression -> binary_expression . LT binary_expression
+
+    AND             reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .)
+    OR              reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .)
+    IS              reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .)
+    NOT             reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .)
+    GT              reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .)
+    LT              reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .)
+    $end            reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .)
+    RPAREN          reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .)
+    PLUS            shift and go to state 8
+    MINUS           shift and go to state 9
+    MULT            shift and go to state 10
+    DIVIDE          shift and go to state 11
+    MOD             shift and go to state 12
+
+  ! PLUS            [ reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .) ]
+  ! MINUS           [ reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .) ]
+  ! MULT            [ reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .) ]
+  ! DIVIDE          [ reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .) ]
+  ! MOD             [ reduce using rule 21 (binary_expression -> binary_expression LT binary_expression .) ]
+  ! AND             [ shift and go to state 13 ]
+  ! OR              [ shift and go to state 14 ]
+  ! IS              [ shift and go to state 15 ]
+  ! NOT             [ shift and go to state 16 ]
+  ! GT              [ shift and go to state 17 ]
+  ! LT              [ shift and go to state 18 ]
+
+
+state 33
+
+    (3) assignment -> identifier EQUAL expression .
+
+    $end            reduce using rule 3 (assignment -> identifier EQUAL expression .)
+
+
+state 34
+
+    (22) binary_expression -> LPAREN binary_expression RPAREN .
+
+    PLUS            reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    MINUS           reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    MULT            reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    DIVIDE          reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    MOD             reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    AND             reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    OR              reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    IS              reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    NOT             reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    GT              reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    LT              reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    $end            reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+    RPAREN          reduce using rule 22 (binary_expression -> LPAREN binary_expression RPAREN .)
+
