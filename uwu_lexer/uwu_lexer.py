@@ -137,10 +137,10 @@ class UWULexer(object):
     string_char = r"""([^"\\\n]|"""+escape_sequence_start_in_string+')'
     string_literal = '"'+string_char+'*"'
 
-    integer = r'\d+'
-
     newline = r'\n+'
 
+    integer_constant = r'([+-]?[0-9]+)'
+    float_constant = r'(([+-]?[0-9]+.)+[0-9]+)'
 
     def t_COMMENT(self, t):
         r'\#.*'
@@ -150,11 +150,17 @@ class UWULexer(object):
     def t_ID(self, t):
         t.type = self.keywords.get(t.value, 'ID')
         return t
-
-    @TOKEN(integer)
+    
+    @TOKEN(float_constant)
+    def t_FLOAT(self, t):
+        t.value = float(t.value)
+        return t
+    
+    @TOKEN(integer_constant)
     def t_INT(self, t):
         t.value = int(t.value)
         return t
+
 
     @TOKEN(string_literal)
     def t_STRINGLITERAL(self, t):
