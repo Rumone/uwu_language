@@ -1,0 +1,25 @@
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Environments
+# .env
+.env/
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+
+# Parser output file
+*.out
+
+# Generated files
+parsetab.py
+lextab.py
+
+
+
+
