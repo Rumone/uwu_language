@@ -2,6 +2,8 @@ import ply.lex as lex
 from ply.lex import TOKEN
 
 class UwuLexer(object):
+    def __init__(self, error_func):
+        self.error_func = error_func
     # keywords
     keywords = {
         'while':'WHILE',
@@ -14,16 +16,18 @@ class UwuLexer(object):
         'continue': 'CONTINUE',
         'try': 'TRY',
         'catch': 'CATCH',
+        'var': 'VAR',
         'string': 'STRING',
         'int': 'INT',
         'float': 'FLOAT',
         'and': 'AND',
         'or': 'OR',
         'if': 'IF',
-        'then': 'THEN',
         'else': 'ELSE',
         'elseif': 'ELSEIF',
-        'func': 'FUNC'     
+        'func': 'FUNC',   
+        'true': 'TRUE',   
+        'false': 'FALSE',   
     }
 
     # List of all tokens
@@ -51,7 +55,11 @@ class UwuLexer(object):
         'STRINGLITERAL',
 
         # Comment token
-        'COMMENT'
+        'COMMENT',
+
+        # conditionals
+        'GT',
+        'LT'
     ]
 
 
@@ -79,6 +87,10 @@ class UwuLexer(object):
     # Arrow Syntax
     # Used to assign function
     t_ARROW = r'->'
+
+    t_LT = r'\<'
+    t_GT = r'\>'
+
 
     t_ignore = ' \t'
 
@@ -118,13 +130,22 @@ class UwuLexer(object):
         t.lexer.lineno += len(t.value)
     
     def t_error(self, t):
-        # Prints the character that offended the lexer 
-        print("[Error]:Please check the character '%s'👉👈" % t.value[0])
-        # Skips to the other character so the lexer does not crash
-        t.lexer.skip(1)
+        # # Prints the character that offended the lexer 
+        # print("[Error]:Please check the character '%s'👉👈" % t.value[0])
+        # # Skips to the other character so the lexer does not crash
+        # t.lexer.skip(1)
+        # update error function
+        self.error_func()
     
     def build(self, **kwargs):
         self.lexer = lex.lex(debug=True, module=self, **kwargs)
+    
+    def input(self, data):
+        self.lexer.input(data)
+
+    def token(self):
+        self.last_token = self.lexer.token()
+        return self.last_token
     
     def test(self, data):
         self.lexer.input(data)
