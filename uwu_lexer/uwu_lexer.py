@@ -4,8 +4,42 @@ from ply.lex import TOKEN
 import logging
 
 class UWULexer(object):
-    def __init__(self, error_func):
-        self.error_func = error_func
+    def __init__(self):
+        pass
+
+
+    def build(self, **kwargs):
+        self.lexer = lex.lex(debug=False, module=self, **kwargs)
+    
+    def input(self, data):
+        self.lexer.input(data)
+
+    def token(self):
+        self.last_token = self.lexer.token()
+        return self.last_token
+    
+    def find_tok_column(self, token):
+        """ Find the column of the token in its line.
+        """
+        last_cr = self.lexer.lexdata.rfind('\n', 0, token.lexpos)
+        return token.lexpos - last_cr
+
+    ######################--   PRIVATE   --######################
+
+    ##
+    ## Internal auxiliary methodsgi
+    ##
+    def _error(self, msg, token):
+        location = self._make_tok_location(token)
+        print(msg, '[row]', location[0], '[col]', location[1])
+        self.lexer.skip(1)
+
+    def _make_tok_location(self, token):
+        return (token.lineno, self.find_tok_column(token))
+
+
+    ######################--   LANGUAGE TOKENS   --######################
+
     # keywords
     keywords = {
         'while':'WHILE',
@@ -93,7 +127,6 @@ class UWULexer(object):
     t_LT = r'\<'
     t_GT = r'\>'
 
-
     t_ignore = ' \t'
 
 
@@ -131,35 +164,23 @@ class UWULexer(object):
     def t_newline(self, t):
         t.lexer.lineno += len(t.value)
     
+    # TODO update error function
     def t_error(self, t):
-        # # Prints the character that offended the lexer 
-        # print("[Error]:Please check the character '%s'👉👈" % t.value[0])
-        # # Skips to the other character so the lexer does not crash
-        # t.lexer.skip(1)
-        # update error function
-        self.error_func()
-    
-    def build(self, **kwargs):
-        self.lexer = lex.lex(debug=True, module=self, **kwargs)
-    
-    def input(self, data):
-        self.lexer.input(data)
+        # Prints the character that offended the lexer 
+        msg = "[Error]:Please check the character '%s'👉👈" 
+        # Skips to the other character so the lexer does not crash
+        self._error(msg=msg, token=t)
 
-    def token(self):
-        self.last_token = self.lexer.token()
-        return self.last_token
+    
 
 
 # When testing
 # When the executed from this file a repl is generated to given tester an interface
 # To identify the use of certain tokens in the laguage
 
-def repl_error():
-    print("Supm break enuh G, fix it")
-
 if __name__ == '__main__':
     # Initialize lex analyzer
-    lexer = UWULexer(error_func=repl_error)
+    lexer = UWULexer()
     lexer.build()
 
 
@@ -179,6 +200,8 @@ if __name__ == '__main__':
         try:
             s = input('> ')
         except EOFError:
+            break
+        except KeyboardInterrupt:
             break
         find_token(s)
 
