@@ -9,7 +9,6 @@
                     | <print_stmnt>    
                     | <func_def>
 
-TODO expr_id needs to be amended
 <expr_stmnt>        ::= <binary_expr>
                     | <expr_group>
                     | <operand>
@@ -23,14 +22,10 @@ TODO expr_id needs to be amended
 <cond_stmnt>        ::= <operand> <binary_op_logic> <operand> 
                     | <operand>
 
-<operand>           ::= <expr_id>
+<operand>           ::= <identifier>
                     | <number_const>
 
-<expr_id>           ::= <identifier>
-
-
-TODO define number and its regular expression
-<number_const>      ::= <>
+<number_const>      ::= <number> | <float>
             
 <binary_op_logic>   ::= AND | OR | IS | NOT | GT | LT 
 
@@ -63,12 +58,13 @@ TODO define number and its regular expression
 
 <string_literal>    ::= '"{<alpha_char>}* | <white_space>}"'
 
-TODO identifier regular expression may be off
 <identifier>        ::= <alpha_char> | {<alpha_char> | <number>}*
 
 <white_space>       ::= ' '
 
-<number>            ::= ['-']? <digit> {<digit>}*
+<number>            ::= ['-']?<digit>+
+
+<float>             ::= ['-']?(<digit>+[.])?[<digit>]+
 
 <alpha_char>        ::= 'a'| ...'z'|'A'| ...'Z'
 

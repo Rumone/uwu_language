@@ -3,10 +3,14 @@ from ply.lex import TOKEN
 
 import logging
 
+# NOTE
+# The order the token is defined in will determine if it is recognized
+# Therefore, if the integer is defined before the float then it will not parse
+# The float properly
+
 class UWULexer(object):
     def __init__(self):
         pass
-
 
     def build(self, **kwargs):
         self.lexer = lex.lex(debug=False, module=self, **kwargs)
@@ -26,14 +30,12 @@ class UWULexer(object):
 
     ######################--   PRIVATE   --######################
 
-    ##
-    ## Internal auxiliary methodsgi
-    ##
     def _error(self, msg, token):
         location = self._make_tok_location(token)
         print(msg, '[row]', location[0], '[col]', location[1])
         self.lexer.skip(1)
 
+    # function returns coords of offending token
     def _make_tok_location(self, token):
         return (token.lineno, self.find_tok_column(token))
 
@@ -50,8 +52,7 @@ class UWULexer(object):
         'return': 'RETURN',
         'break': 'BREAK',
         'continue': 'CONTINUE',
-        'try': 'TRY',
-        'catch': 'CATCH',
+        'print  ': 'PRINT',
         'var': 'VAR',
         'string': 'STRING',
         'int': 'INT',
@@ -95,7 +96,11 @@ class UWULexer(object):
 
         # conditionals
         'GT',
-        'LT'
+        'LT',
+
+        # numberical token
+        'INT_CONST',
+        'FLOAT_CONST'
     ]
 
 
@@ -140,10 +145,10 @@ class UWULexer(object):
     newline = r'\n+'
 
     integer_constant = r'([+-]?[0-9]+)'
-    float_constant = r'(([+-]?[0-9]+.)+[0-9]+)'
+    float_constant = r'([+-]?([0-9]+[.])?[0-9]+)'
 
     def t_COMMENT(self, t):
-        r'\#.*'
+        r'\☁️.*'
         pass
 
     @TOKEN(identifier)
@@ -152,12 +157,12 @@ class UWULexer(object):
         return t
     
     @TOKEN(float_constant)
-    def t_FLOAT(self, t):
+    def t_FLOAT_CONST(self, t):
         t.value = float(t.value)
         return t
     
     @TOKEN(integer_constant)
-    def t_INT(self, t):
+    def t_INT_CONST(self, t):
         t.value = int(t.value)
         return t
 
