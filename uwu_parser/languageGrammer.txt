@@ -1,56 +1,73 @@
+<statements>        ::= <statement> <statements>
 
-<statement> ::= <expression>
+<statement>         ::= <expr_stmnt>
+                    | <cond_stmnt>
+                    | <assign_stmnt>
+                    | <decl_stmnt>
+                    | <if_stmnt>
+                    | <loop_stmnt> 👈
+                    | <print_stmnt>    
+                    | <func_def>
 
-<data_type>   ::= INT | FLOAT | STRING
+<expr_stmnt>        ::= <binary_expr>
+                    | <expr_group>
+                    | <operand>
+                
 
-<assignment>    ::= <identifier> EQUAL (<expression> | <string_literal>)
+<binary_expr>       ::= <expr_stmnt> <binary_op_math> <expr_stmnt>
 
-<var_assign>    ::= <declaration> EQUAL (<expression> | <string_literal>)
-
-<declaration>   ::= VAR <identifier>
-                | VAR <identifier> COLON <data_type>
-
-// TODO add more types of expression
-<expression>    ::= <binary_expression>
-                | <conditional_expression> 
-
-<binary_expression> ::= <binary_expression> PLUS <binary_expression>
-                    | <binary_expression> MINUS <binary_expression>
-                    | <binary_expression> MULT <binary_expression>
-                    | <binary_expression> DIVIDE <binary_expression>
-                    | <binary_expression> MOD <binary_expression>
-                    | <binary_expression> AND <binary_expression>
-                    | <binary_expression> OR <binary_expression>
-                    | <binary_expression> IS <binary_expression>
-                    | <binary_expression> NOT <binary_expression>
-                    | <binary_expression> GT <binary_expression>
-                    | <binary_expression> LT <binary_expression>
-                    | LPAREN <binary_expression> RPAREN
-                    | <number>
-                    | <identifier>
+<expr_group>        ::= LPARN binary_expr RPAREN
 
 
-<if_control_structure>  ::= IF <conditional_expression> <body_definition>
-                        | IF <conditional_expression> <body_definition> ELSEIF <conditional_expression> <body_definition>
-                        | IF <conditional_expression> <body_definition> ELSE <body_definition>
+<cond_stmnt>        ::= <operand> <binary_op_logic> <operand> 
+                    | <operand>
 
-<conditional_expression>    ::= LPAREN <binary_expression> RPAREN 
+<operand>           ::= <identifier>
+                    | <number_const>
 
-<body_definition>   ::= <assignment>
-                    | <expression>
-                    | <if_control_structure>
-                    | LBRACE <body_definition> RBRACE
+<number_const>      ::= <number> | <float>
+            
+<binary_op_logic>   ::= AND | OR | IS | NOT | GT | LT 
 
-<string_literal>    ::= '"{<alphabetic_characteristics>}* | <white_space>"'
+<binary_op_math>    ::= PLUS | MINUS | MULT | DIVIDE | MOD
 
-<identifier>    ::= <alphabetic_characteristics> | {<alphabetic_characteristics> | <number>}*
 
-<white_space>   ::= ' '
+<assign_stmnt>      ::= <identifier> EQUAL <expr_stmnt>
+                    | <decl_stmnt> EQUAL <expr_stmnt>
 
-<number>    ::= ['-']? <digit> {<digit>}*
 
-<alphabetic_characters> ::= 'a'| ...'z'|'A'| ...'Z'
+<decl_stmnt>        ::= <typed_decl_expr>
+                    | <decl_expr>
 
-<digit> ::= '0' | ...'9'
+<typed_decl_expr>   ::= VAR <identifier> COLON <data_type>
+<decl_expr>         ::= VAR <identifier>
+
+<data_type>         ::= INT | FLOAT | STRING
+
+
+<if_stmnt>          ::= IF <cond_stmnt> LBRACE <statements> RBRACE
+                    | IF <cond_stmnt> LBRACE <statements> RBRACE ELSEIF <cond_stmnt> LBRACE <statements> RBRACE 
+                    | IF <cond_stmnt> LBRACE <statements> RBRACE ELSE LBRACE <statements> RBRACE 
+                        
+<print_stmnt>       ::= PRINT LPAREN {<string_literal> | binary_expr} RPAREN 
+
+
+<func_def>          ::= FUNC <identifier> (<params>?) ARROW LBRACE <statements> RBRACE
+
+<params>            ::= <identifier> | (<identifier>[,])*
+
+<string_literal>    ::= '"{<alpha_char>}* | <white_space>}"'
+
+<identifier>        ::= <alpha_char> | {<alpha_char> | <number>}*
+
+<white_space>       ::= ' '
+
+<number>            ::= ['-']?<digit>+
+
+<float>             ::= ['-']?(<digit>+[.])?[<digit>]+
+
+<alpha_char>        ::= 'a'| ...'z'|'A'| ...'Z'
+
+<digit>             ::= '0' | ...'9'
 
 

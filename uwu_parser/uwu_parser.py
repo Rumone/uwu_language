@@ -1,34 +1,28 @@
 from ply import yacc
 from uwu_lexer import UWULexer
-
-import ast
-
+from .ast_node import IdentifierNode, AssignmentNode, ConstantNode, BinaryOpNode, GenericNode
 class UWUParser(object):
     def __init__(self, lexer=UWULexer):
-        self.uwulex = lexer(
-            error_func=self.lex_error_func
-        )
+        # Call and build lexer
+        self.lex = lexer()
+        self.lex.build()
 
-        # TODO Identify what the options to this function means
-        self.uwulex.build(
-            optimize=True,
-        )
-
-        self.tokens = self.uwulex.tokens        
-        self.uwuparser = yacc.yacc(module=self)
+        # store lexer tokens 
+        self.tokens = self.lex.tokens        
+        self.parser = yacc.yacc(module=self)
 
     
-    def parse(self, text):
-        self.uwuparser.parse(
-            input=text,lexer=self.uwulex, debug=True
-        )
+    def parse(self, text, dbg=True):
+        return self.parser.parse(input=text,lexer=self.lex, debug=dbg)
 
-    # TODO create better function definition for lex analysis function error
-    def lex_error_func(self, msg=None, line=None, column=None):
-        print("[Error]:Please check the character '%s'👉👈")
-
+    def p_error(self, p):
+        # TODO update the syntax error message
+        print("there was a syntax error")
     
+    ######################--   LANGUAGE RULES   --######################
+
     precedence = (
+        ('left', 'EQUAL'),
         ('left', 'OR'),
         ('left', 'AND'),
         ('left', 'IS', 'NOT'),
@@ -37,85 +31,70 @@ class UWUParser(object):
         ('left', 'MULT', 'DIVIDE', 'MOD'),
     )
 
+    
+
+    # def p_statements(self, p):
+    #     '''
+    #     statements  : statement statments
+    #                 | statement
+    #     '''
+    #     p[0] = GenericNode(children=[p[1], p[2]])
+
     def p_statement(self, p):
         '''
-        statement   : expression
-                    | assignment
+        statement   : assign_stmnt
+                    | expr_stmnt
         '''
-        p[0] = p[1]
-        return p[0]
+        p[0] = GenericNode(children=[p[1]])
+    
+    def p_assign_statement(self, p):
+        '''
+        assign_stmnt    : identifier EQUAL expr_stmnt
+        '''
+        p[0] = AssignmentNode(p[2], children=[p[1], p[3]])
 
-    def p_assignment(self, p):
+    def p_expr_statement(self, p):
         '''
-        assignment  : identifier EQUAL expression
+        expr_stmnt  : binary_expr
+                    | number_const
+                    | identifier
         '''
-        p[0] = ('assignment', p[2], p[1], p[3])
+        p[0] = GenericNode(children=[p[1]])
 
-    def p_var_init(self, p):
-        '''
-        var_init  : decl EQUAL expression
-        '''
-        p[0] = ('variable_initialization', p[2], p[1], p[3])
-
-        
-    def p_decl(self, p):
-        '''
-        decl    : VAR identifier COLON decl_type
-                | VAR identifier   
-        '''
-        if len(p) >= 2:
-            # declared with data type
-            p[0] = ('typed_decl', p[1], p[2], p[3], p[4])
-        else: 
-            p[0] = ('decl', p[1], p[2]) 
-
-    def p_decl_type(self, p):
-        '''
-        decl_type   : INT 
-                    | FLOAT 
-                    | STRING
-        '''
-        p[0] = p[1]
-
-
-    def p_expression(self, p):
-        '''
-        expression  : binary_expression
-        '''
-        p[0] = p[1]
-        # print(p[0])
-
-
+    
     def p_binary_expression(self, p):
         '''
-        binary_expression   : binary_expression PLUS binary_expression
-                            | binary_expression MINUS binary_expression 
-                            | binary_expression MULT binary_expression 
-                            | binary_expression DIVIDE binary_expression 
-                            | binary_expression MOD binary_expression 
-                            | binary_expression AND binary_expression 
-                            | binary_expression OR binary_expression 
-                            | binary_expression IS binary_expression 
-                            | binary_expression NOT binary_expression 
-                            | binary_expression GT binary_expression 
-                            | binary_expression LT binary_expression
-                            | LPAREN binary_expression RPAREN 
-                            | identifier 
+        binary_expr   : expr_stmnt binary_op_math expr_stmnt
         '''
-        if len(p) == 2:
-            p[0] = p[1]
-        else:
-            p[0] = ('binary_expression', p[2], p[1], p[3])
+        # pass correct operation into binary operation node class
+        p[0] = BinaryOpNode(p[2], children=[p[1], p[3]])
+    
+
+    def p_binary_op_math(self, p):
+        '''
+        binary_op_math  : PLUS
+                        | MINUS
+                        | MULT
+                        | DIVIDE
+                        | MOD
+        '''
+        p[0] = p[1]
+
+    def p_number_const(self, p):
+        '''
+        number_const    : INT_CONST
+                        | FLOAT_CONST
+        '''
+        # TODO check token and identify if it is a constant
+        p[0] = ConstantNode(children=[p[1]])
+
 
     def p_identifier(self, p):
         '''
         identifier  : ID
         '''
-        p[0] = p[1]
-
-
-    def p_error(self, p):
-        # update the syntax error message
-        print("there was a syntax error")
-
+        p[0] = IdentifierNode(children=[p[1]])
         
+    
+
+    

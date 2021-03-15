@@ -3,9 +3,45 @@ from ply.lex import TOKEN
 
 import logging
 
+# NOTE
+# The order the token is defined in will determine if it is recognized
+# Therefore, if the integer is defined before the float then it will not parse
+# The float properly
+
 class UWULexer(object):
-    def __init__(self, error_func):
-        self.error_func = error_func
+    def __init__(self):
+        pass
+
+    def build(self, **kwargs):
+        self.lexer = lex.lex(debug=False, module=self, **kwargs)
+    
+    def input(self, data):
+        self.lexer.input(data)
+
+    def token(self):
+        self.last_token = self.lexer.token()
+        return self.last_token
+    
+    def find_tok_column(self, token):
+        """ Find the column of the token in its line.
+        """
+        last_cr = self.lexer.lexdata.rfind('\n', 0, token.lexpos)
+        return token.lexpos - last_cr
+
+    ######################--   PRIVATE   --######################
+
+    def _error(self, msg, token):
+        location = self._make_tok_location(token)
+        print(msg, '[row]', location[0], '[col]', location[1])
+        self.lexer.skip(1)
+
+    # function returns coords of offending token
+    def _make_tok_location(self, token):
+        return (token.lineno, self.find_tok_column(token))
+
+
+    ######################--   LANGUAGE TOKENS   --######################
+
     # keywords
     keywords = {
         'while':'WHILE',
@@ -16,8 +52,7 @@ class UWULexer(object):
         'return': 'RETURN',
         'break': 'BREAK',
         'continue': 'CONTINUE',
-        'try': 'TRY',
-        'catch': 'CATCH',
+        'print  ': 'PRINT',
         'var': 'VAR',
         'string': 'STRING',
         'int': 'INT',
@@ -61,7 +96,11 @@ class UWULexer(object):
 
         # conditionals
         'GT',
-        'LT'
+        'LT',
+
+        # numberical token
+        'INT_CONST',
+        'FLOAT_CONST'
     ]
 
 
@@ -93,7 +132,6 @@ class UWULexer(object):
     t_LT = r'\<'
     t_GT = r'\>'
 
-
     t_ignore = ' \t'
 
 
@@ -104,24 +142,30 @@ class UWULexer(object):
     string_char = r"""([^"\\\n]|"""+escape_sequence_start_in_string+')'
     string_literal = '"'+string_char+'*"'
 
-    integer = r'\d+'
-
     newline = r'\n+'
 
+    integer_constant = r'([+-]?[0-9]+)'
+    float_constant = r'([+-]?([0-9]+[.])?[0-9]+)'
 
     def t_COMMENT(self, t):
-        r'\#.*'
+        r'\☁️.*'
         pass
 
     @TOKEN(identifier)
     def t_ID(self, t):
         t.type = self.keywords.get(t.value, 'ID')
         return t
-
-    @TOKEN(integer)
-    def t_INT(self, t):
+    
+    @TOKEN(float_constant)
+    def t_FLOAT_CONST(self, t):
+        t.value = float(t.value)
+        return t
+    
+    @TOKEN(integer_constant)
+    def t_INT_CONST(self, t):
         t.value = int(t.value)
         return t
+
 
     @TOKEN(string_literal)
     def t_STRINGLITERAL(self, t):
@@ -131,35 +175,23 @@ class UWULexer(object):
     def t_newline(self, t):
         t.lexer.lineno += len(t.value)
     
+    # TODO update error function
     def t_error(self, t):
-        # # Prints the character that offended the lexer 
-        # print("[Error]:Please check the character '%s'👉👈" % t.value[0])
-        # # Skips to the other character so the lexer does not crash
-        # t.lexer.skip(1)
-        # update error function
-        self.error_func()
-    
-    def build(self, **kwargs):
-        self.lexer = lex.lex(debug=True, module=self, **kwargs)
-    
-    def input(self, data):
-        self.lexer.input(data)
+        # Prints the character that offended the lexer 
+        msg = "[Error]:Please check the character '%s'👉👈" 
+        # Skips to the other character so the lexer does not crash
+        self._error(msg=msg, token=t)
 
-    def token(self):
-        self.last_token = self.lexer.token()
-        return self.last_token
+    
 
 
 # When testing
 # When the executed from this file a repl is generated to given tester an interface
 # To identify the use of certain tokens in the laguage
 
-def repl_error():
-    print("Supm break enuh G, fix it")
-
 if __name__ == '__main__':
     # Initialize lex analyzer
-    lexer = UWULexer(error_func=repl_error)
+    lexer = UWULexer()
     lexer.build()
 
 
@@ -179,6 +211,8 @@ if __name__ == '__main__':
         try:
             s = input('> ')
         except EOFError:
+            break
+        except KeyboardInterrupt:
             break
         find_token(s)
 
