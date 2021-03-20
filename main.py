@@ -1,5 +1,6 @@
 from uwu_parser import UWUParser
 from uwu_global import UWU_GLOBAL
+from codegen import CodeGen
 
 def main():
     parser = UWUParser()
