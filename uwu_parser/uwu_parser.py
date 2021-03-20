@@ -1,6 +1,6 @@
 from ply import yacc
 from uwu_lexer import UWULexer
-from .ast_node import IdentifierNode, AssignmentNode, ConstantNode, BinaryOpNode, GenericNode
+from .ast_node import *
 class UWUParser(object):
     def __init__(self, lexer=UWULexer):
         # Call and build lexer
@@ -31,7 +31,15 @@ class UWUParser(object):
         ('left', 'MULT', 'DIVIDE', 'MOD'),
     )
 
-    
+    def p_function_definition(self, p):
+        '''
+        func_def    : FUNC identifier LPAREN RPAREN ARROW LBRACE statements RBRACE
+                    | LPAREN RPAREN ARROW LBRACE statements RBRACE
+        '''
+        if len(p) == 9:    
+            p[0] = FuncDefNode(children=[p[2], p[7]])   
+        else:
+            p[0] = GenericNode(children=[p[5]])
 
     def p_statements(self, p):
         '''
@@ -47,6 +55,7 @@ class UWUParser(object):
         '''
         statement   : assign_stmnt
                     | expr_stmnt
+                    | func_call
         '''
         p[0] = GenericNode(children=[p[1]])
     
@@ -55,6 +64,13 @@ class UWUParser(object):
         assign_stmnt    : identifier EQUAL expr_stmnt
         '''
         p[0] = AssignmentNode(p[2], children=[p[1], p[3]])
+
+    def p_func_call(self, p):
+        '''
+        func_call    : identifier LPAREN RPAREN
+        '''
+        p[0] = FuncCallNode(children=[p[1]])
+
 
     def p_expr_statement(self, p):
         '''

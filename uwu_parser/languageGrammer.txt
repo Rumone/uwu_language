@@ -52,7 +52,7 @@
 <print_stmnt>       ::= PRINT LPAREN {<string_literal> | binary_expr} RPAREN 
 
 
-<func_def>          ::= FUNC <identifier> (<params>?) ARROW LBRACE <statements> RBRACE
+<func_def>          ::= FUNC <identifier> LPAREN <params>? RPAREN ARROW LBRACE <statements> RBRACE
 
 <params>            ::= <identifier> | (<identifier>[,])*
 
