@@ -1,17 +1,11 @@
 from ply import yacc
 from uwu_lexer import UWULexer
 from .ast_node import *
-import Number
 class UWUParser(object):
-    def __init__(self,module, builder,printf, lexer=UWULexer):
+    def __init__(self, lexer=UWULexer):
         # Call and build lexer
         self.lex = lexer()
         self.lex.build()
-
-        self.module = module
-        self.builder = builder
-        self.printf = printf
-
         # store lexer tokens 
         self.tokens = self.lex.tokens        
         self.parser = yacc.yacc(module=self)
@@ -62,6 +56,8 @@ class UWUParser(object):
                     | expr_stmnt
                     | func_call
                     | func_def
+                    | if_stmnt
+                    | print_stmnt
         '''
         p[0] = GenericNode(children=[p[1]])
     
@@ -73,10 +69,21 @@ class UWUParser(object):
 
     def p_func_call(self, p):
         '''
-        func_call    : identifier LPAREN RPAREN
+        func_call   : identifier LPAREN RPAREN
         '''
         p[0] = FuncCallNode(children=[p[1]])
 
+    def p_if_stmnt(self, p):
+        '''
+        if_stmnt    : IF cond_stmnt LBRACE statements RBRACE
+        '''
+        p[0] = IfStatementNode(children=[p[2], p[4]])
+    
+    def p_print_stmnt(self, p):
+        '''
+        print_stmnt : PRINT LBRACKET string_const RBRACKET
+        '''
+        p[0] = PrintNode(children=[p[3]])
 
     def p_expr_statement(self, p):
         '''
@@ -134,6 +141,13 @@ class UWUParser(object):
         '''
         # TODO check token and identify if it is a constant
         Number(self.builder, self.module, p[1].value)
+        p[0] = ConstantNode(children=[p[1]])
+    
+    def p_string_const(self, p):
+        '''
+        string_const    : STRINGLITERAL
+        '''
+        # TODO check token and identify if it is a constant
         p[0] = ConstantNode(children=[p[1]])
 
 

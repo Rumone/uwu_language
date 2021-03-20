@@ -7,4 +7,5 @@ from .var_node import VarNode
 from .func_def_node import FuncDefNode
 from .func_call_node import FuncCallNode
 from .cond_stmnt_node import ConditionStatementNode
-from .ast2 import Number
+from .if_stmnt_node import IfStatementNode
+from .print_node import PrintNode

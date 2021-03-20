@@ -16,15 +16,17 @@ class ConditionStatementNode(Node):
         
         if (type(rval) is str):
             rval = find_value(rval)
-
-        print(lval, rval) 
+            
         if self.logic_op == 'and':
             return (bool(lval) and bool(rval))
         elif self.logic_op == 'or':
             return (bool(lval) or bool(rval))
         elif self.logic_op == 'is':
             return (lval is rval)
-
+        elif self.logic_op == '>':
+            return (lval > rval)
+        elif self.logic_op == '<':
+            return (lval < rval)
         
         
         return True

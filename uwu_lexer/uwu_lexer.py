@@ -52,7 +52,7 @@ class UWULexer(object):
         'return': 'RETURN',
         'break': 'BREAK',
         'continue': 'CONTINUE',
-        'print  ': 'PRINT',
+        'print': 'PRINT',
         'var': 'VAR',
         'string': 'STRING',
         'int': 'INT',
