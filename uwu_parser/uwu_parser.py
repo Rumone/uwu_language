@@ -57,6 +57,8 @@ class UWUParser(object):
                     | expr_stmnt
                     | func_call
                     | func_def
+                    | if_stmnt
+                    | print_stmnt
         '''
         p[0] = GenericNode(children=[p[1]])
     
@@ -68,10 +70,21 @@ class UWUParser(object):
 
     def p_func_call(self, p):
         '''
-        func_call    : identifier LPAREN RPAREN
+        func_call   : identifier LPAREN RPAREN
         '''
         p[0] = FuncCallNode(children=[p[1]])
 
+    def p_if_stmnt(self, p):
+        '''
+        if_stmnt    : IF cond_stmnt LBRACE statements RBRACE
+        '''
+        p[0] = IfStatementNode(children=[p[2], p[4]])
+    
+    def p_print_stmnt(self, p):
+        '''
+        print_stmnt : PRINT LBRACKET string_const RBRACKET
+        '''
+        p[0] = PrintNode(children=[p[3]])
 
     def p_expr_statement(self, p):
         '''
@@ -126,6 +139,13 @@ class UWUParser(object):
     def p_number_const(self, p):
         '''
         number_const    : NUMBER_CONST
+        '''
+        # TODO check token and identify if it is a constant
+        p[0] = ConstantNode(children=[p[1]])
+    
+    def p_string_const(self, p):
+        '''
+        string_const    : STRINGLITERAL
         '''
         # TODO check token and identify if it is a constant
         p[0] = ConstantNode(children=[p[1]])
