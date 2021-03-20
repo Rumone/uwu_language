@@ -1,11 +1,16 @@
 from ply import yacc
 from uwu_lexer import UWULexer
 from .ast_node import *
+import Number
 class UWUParser(object):
-    def __init__(self, lexer=UWULexer):
+    def __init__(self,module, builder,printf, lexer=UWULexer):
         # Call and build lexer
         self.lex = lexer()
         self.lex.build()
+
+        self.module = module
+        self.builder = builder
+        self.printf = printf
 
         # store lexer tokens 
         self.tokens = self.lex.tokens        
@@ -128,6 +133,7 @@ class UWUParser(object):
         number_const    : NUMBER_CONST
         '''
         # TODO check token and identify if it is a constant
+        Number(self.builder, self.module, p[1].value)
         p[0] = ConstantNode(children=[p[1]])
 
 
