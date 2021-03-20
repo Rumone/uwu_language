@@ -56,6 +56,7 @@ class UWUParser(object):
         statement   : assign_stmnt
                     | expr_stmnt
                     | func_call
+                    | func_def
         '''
         p[0] = GenericNode(children=[p[1]])
     
