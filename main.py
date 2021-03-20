@@ -10,7 +10,7 @@ def main():
             break
         except KeyboardInterrupt:
             break
-        tree = parser.parse(s, dbg=False)
+        tree = parser.parse(s, dbg=True)
         result = tree.evaluate_node()
         if result: print(result)
         print(UWU_GLOBAL)
