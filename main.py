@@ -12,7 +12,8 @@ def main():
             break
         tree = parser.parse(s, dbg=True)
         result = tree.evaluate_node()
-        if result: print(result)
+        # if result: print(result)
+        print(tree)
         print(UWU_GLOBAL)
 
 
