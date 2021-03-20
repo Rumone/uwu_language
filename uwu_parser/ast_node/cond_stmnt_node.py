@@ -1,4 +1,5 @@
 from .node import Node
+from uwu_global import update_env, find_value
 
 class ConditionStatementNode(Node):
     def __init__(self,logic_op,children=[]):
@@ -7,4 +8,33 @@ class ConditionStatementNode(Node):
 
     
     def evaluate_node(self):
-        pass
+        lval, rval = (self.children[0].evaluate_node(), self.children[1].evaluate_node())
+        
+        # get the actual value
+        if (type(lval) is str):
+            lval = find_value(lval)
+        
+        if (type(rval) is str):
+            rval = find_value(rval)
+
+        print(lval, rval) 
+        if self.logic_op == 'and':
+            return (bool(lval) and bool(rval))
+        elif self.logic_op == 'or':
+            return (bool(lval) or bool(rval))
+        elif self.logic_op == 'is':
+            return (lval is rval)
+
+        
+        
+        return True
+
+
+
+# RULES
+# any number thats not 0 will give true
+# therefore 1 to infinity is true 
+# 0 will return false
+# any number and with 0 evaluation will atomatically be false
+# an identifier is only another when the value in the env global file is the same as the other
+# We all know how greater than and equal works

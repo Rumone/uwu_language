@@ -24,7 +24,6 @@ class BinaryOpNode(Node):
             # TODO handle error here
             result = 0
         # For repl purposes
-        print(result)
         return result
     
     # TODO update function to be more pythonic

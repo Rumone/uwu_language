@@ -10,6 +10,9 @@ def main():
         test = 3
         foo = 3
         bar = 3
+        b = 2
+
+        x = 2 is 2
 
         func foobar () -> {
             c = bar + 5
@@ -21,7 +24,7 @@ def main():
 
     tree = parser.parse(code_input)
     tree.evaluate_node()
-    print(tree)
+    # print(tree)
     print(UWU_GLOBAL)
     
     
@@ -32,8 +35,9 @@ def main():
     #         break
     #     except KeyboardInterrupt:
     #         break
-    #     tree = parser.parse(s, dbg=False)
+    #     tree = parser.parse(s, dbg=True)
     #     result = tree.evaluate_node()
+    #     print(tree)
     #     print(UWU_GLOBAL)
 
 

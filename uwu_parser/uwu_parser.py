@@ -79,8 +79,7 @@ class UWUParser(object):
                     | cond_stmnt
                     | operand
         '''
-        p[0] = GenericNode(children=[p[1]])
-
+        p[0] = GenericNode(children=[p[1]]) 
     
     def p_binary_expression(self, p):
         '''
@@ -91,7 +90,7 @@ class UWUParser(object):
 
     def p_cond_stmnt(self, p):
         '''
-        cond_stmnt : expr_stmnt binary_op_logic expr_stmnt
+        cond_stmnt : operand binary_op_logic operand
         '''
         p[0] = ConditionStatementNode(p[2], children=[p[1],p[3]])
     
@@ -122,7 +121,7 @@ class UWUParser(object):
         operand : identifier 
                 | number_const
         '''
-        p[0] = GenericNode(children=p[1])
+        p[0] = GenericNode(children=[p[1]])
 
     def p_number_const(self, p):
         '''
