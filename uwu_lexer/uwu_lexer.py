@@ -99,8 +99,7 @@ class UWULexer(object):
         'LT',
 
         # numberical token
-        'INT_CONST',
-        'FLOAT_CONST'
+        'NUMBER_CONST'
     ]
 
 
@@ -144,8 +143,8 @@ class UWULexer(object):
 
     newline = r'\n+'
 
-    integer_constant = r'([+-]?[0-9]+)'
-    float_constant = r'([+-]?([0-9]+[.])?[0-9]+)'
+    
+    number_constant = r'([+-]?([0-9]+[.])?[0-9]+)'
 
     def t_COMMENT(self, t):
         r'\☁️.*'
@@ -155,17 +154,14 @@ class UWULexer(object):
     def t_ID(self, t):
         t.type = self.keywords.get(t.value, 'ID')
         return t
-    
-    @TOKEN(float_constant)
-    def t_FLOAT_CONST(self, t):
-        t.value = float(t.value)
+        
+    @TOKEN(number_constant)
+    def t_NUMBER_CONST(self, t):
+        if "." in t.value:
+            t.value = float(t.value)
+        else:
+            t.value = int(t.value)
         return t
-    
-    @TOKEN(integer_constant)
-    def t_INT_CONST(self, t):
-        t.value = int(t.value)
-        return t
-
 
     @TOKEN(string_literal)
     def t_STRINGLITERAL(self, t):
@@ -205,11 +201,11 @@ if __name__ == '__main__':
 
     # Generates REPL 
     # Prints response to user
-    logging.basicConfig(format='[%(levelname)s 🖕]-%(message)s', level=logging.INFO)
+    logging.basicConfig(format='[%(levelname)s 🌜]-%(message)s', level=logging.INFO)
     logging.info("Running from tokenizer")
     while True:
         try:
-            s = input('> ')
+            s = input('🤔-> ')
         except EOFError:
             break
         except KeyboardInterrupt:

@@ -76,14 +76,13 @@ class UWUParser(object):
                         | MINUS
                         | MULT
                         | DIVIDE
-                        | MOD
+                        | MOD   
         '''
         p[0] = p[1]
 
     def p_number_const(self, p):
         '''
-        number_const    : INT_CONST
-                        | FLOAT_CONST
+        number_const    : NUMBER_CONST
         '''
         # TODO check token and identify if it is a constant
         p[0] = ConstantNode(children=[p[1]])
