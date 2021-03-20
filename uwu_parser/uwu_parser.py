@@ -33,13 +33,16 @@ class UWUParser(object):
 
     
 
-    # def p_statements(self, p):
-    #     '''
-    #     statements  : statement statments
-    #                 | statement
-    #     '''
-    #     p[0] = GenericNode(children=[p[1], p[2]])
-
+    def p_statements(self, p):
+        '''
+        statements  : statement statements
+                    | statement
+        '''
+        if len(p) > 2:
+            p[0] = GenericNode(children=[p[1], p[2]])
+        else:
+            p[0] = GenericNode(children=[p[1]])
+            
     def p_statement(self, p):
         '''
         statement   : assign_stmnt
