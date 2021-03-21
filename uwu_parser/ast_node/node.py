@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 
 class Node(ABC):
-    def __init__(self, children=[]):
+    def __init__(self, builder, module, children=[]):
+        self.builder = builder
+        self.module = module
         self.children = children
 
     def __str__(self):
@@ -9,5 +11,9 @@ class Node(ABC):
 
     @abstractmethod
     def evaluate_node(self):
+        pass
+
+    @abstractmethod
+    def evaluate_codegen(self):
         pass
 
