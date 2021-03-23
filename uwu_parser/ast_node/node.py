@@ -10,10 +10,7 @@ class Node(ABC):
         return self.__class__.__name__ + '(' + ', '.join([str(node) for node in self.children]) + ')'
 
     @abstractmethod
-    def evaluate_node(self):
-        pass
+    def eval(self):
+        return self.children[0].eval()
 
-    @abstractmethod
-    def evaluate_codegen(self):
-        pass
 

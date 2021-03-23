@@ -7,6 +7,7 @@ class UWUParser(object):
         self.lex = lexer()
         self.lex.build()
 
+        # Codegen related code
         self.module = module
         self.builder = builder
         self.printf = printf
@@ -41,9 +42,9 @@ class UWUParser(object):
                     | LPAREN RPAREN ARROW LBRACE statements RBRACE
         '''
         if len(p) == 9:    
-            p[0] = FuncDefNode(children=[p[2], p[7]])   
+            p[0] = FuncDefNode(self.builder, self.module, children=[p[2], p[7]])   
         else:
-            p[0] = GenericNode(children=[p[5]])
+            p[0] = GenericNode(self.builder, self.module, children=[p[5]])
 
     def p_statements(self, p):
         '''
@@ -51,9 +52,9 @@ class UWUParser(object):
                     | statement
         '''
         if len(p) > 2:
-            p[0] = GenericNode(children=[p[1], p[2]])
+            p[0] = GenericNode(self.builder, self.module, children=[p[1], p[2]])
         else:
-            p[0] = GenericNode(children=[p[1]])
+            p[0] = GenericNode(self.builder, self.module, children=[p[1]])
             
     def p_statement(self, p):
         '''
@@ -64,31 +65,31 @@ class UWUParser(object):
                     | if_stmnt
                     | print_stmnt
         '''
-        p[0] = GenericNode(children=[p[1]])
+        p[0] = GenericNode(self.builder, self.module, children=[p[1]])
     
     def p_assign_statement(self, p):
         '''
         assign_stmnt    : identifier EQUAL expr_stmnt
         '''
-        p[0] = AssignmentNode(p[2], children=[p[1], p[3]])
+        p[0] = AssignmentNode(p[2], self.builder, self.module, children=[p[1], p[3]])
 
     def p_func_call(self, p):
         '''
         func_call   : identifier LPAREN RPAREN
         '''
-        p[0] = FuncCallNode(children=[p[1]])
+        p[0] = FuncCallNode(self.builder, self.module, children=[p[1]])
 
     def p_if_stmnt(self, p):
         '''
         if_stmnt    : IF cond_stmnt LBRACE statements RBRACE
         '''
-        p[0] = IfStatementNode(children=[p[2], p[4]])
+        p[0] = IfStatementNode(self.builder, self.module, children=[p[2], p[4]])
     
     def p_print_stmnt(self, p):
         '''
         print_stmnt : PRINT LBRACKET string_const RBRACKET
         '''
-        p[0] = PrintNode(children=[p[3]])
+        p[0] = PrintNode(self.builder, self.module, self.printf, children=[p[3]])
 
     def p_expr_statement(self, p):
         '''
@@ -96,20 +97,20 @@ class UWUParser(object):
                     | cond_stmnt
                     | operand
         '''
-        p[0] = GenericNode(children=[p[1]]) 
+        p[0] = GenericNode(self.builder, self.module, children=[p[1]]) 
     
     def p_binary_expression(self, p):
         '''
         binary_expr   : expr_stmnt binary_op_math expr_stmnt
         '''
         # pass correct operation into binary operation node class
-        p[0] = BinaryOpNode(p[2], children=[p[1], p[3]])
+        p[0] = BinaryOpNode(p[2], self.builder, self.module, children=[p[1], p[3]])
 
     def p_cond_stmnt(self, p):
         '''
         cond_stmnt : operand binary_op_logic operand
         '''
-        p[0] = ConditionStatementNode(p[2], children=[p[1],p[3]])
+        p[0] = ConditionStatementNode(p[2], self.builder, self.module, children=[p[1],p[3]])
     
 
     def p_binary_op_math(self, p):
@@ -138,7 +139,7 @@ class UWUParser(object):
         operand : identifier 
                 | number_const
         '''
-        p[0] = GenericNode(children=[p[1]])
+        p[0] = GenericNode(self.builder, self.module, children=[p[1]])
 
     def p_number_const(self, p):
         '''
@@ -146,21 +147,21 @@ class UWUParser(object):
         '''
         # TODO check token and identify if it is a constant
         Number(self.builder, self.module, p[1].value)
-        p[0] = ConstantNode(children=[p[1]])
+        p[0] = ConstantNode(self.builder, self.module, children=[p[1]])
     
     def p_string_const(self, p):
         '''
         string_const    : STRINGLITERAL
         '''
         # TODO check token and identify if it is a constant
-        p[0] = ConstantNode(children=[p[1]])
+        p[0] = ConstantNode(self.builder, self.module, children=[p[1]])
 
 
     def p_identifier(self, p):
         '''
         identifier  : ID
         '''
-        p[0] = IdentifierNode(children=[p[1]])
+        p[0] = IdentifierNode(self.builder, self.module, children=[p[1]])
 
     
     

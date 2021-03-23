@@ -2,13 +2,13 @@ from .node import Node
 from uwu_global import update_env, find_value
 
 class ConditionStatementNode(Node):
-    def __init__(self,logic_op,children=[]):
-        self.children = children
+    def __init__(self, logic_op, builder, module,children=[]):
+        super().__init__(builder, module, children)
         self.logic_op = logic_op
 
     
-    def evaluate_node(self):
-        lval, rval = (self.children[0].evaluate_node(), self.children[1].evaluate_node())
+    def eval(self):
+        lval, rval = (self.children[0].eval(), self.children[1].eval())
         
         # get the actual value
         if (type(lval) is str):

@@ -1,6 +1,5 @@
 from uwu_parser import UWUParser
 from uwu_lexer import UWULexer
-from uwu_global import UWU_GLOBAL
 from codegen import CodeGen
 
 def main():
@@ -21,5 +20,3 @@ def main():
     codegen.save_ir("output.ll")
 
 main()
-
-

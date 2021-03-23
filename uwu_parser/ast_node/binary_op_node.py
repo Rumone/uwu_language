@@ -3,11 +3,11 @@ from .node import Node
 from uwu_global import find_value
 
 class BinaryOpNode(Node):
-    def __init__(self, operation, children=[]):
-        super().__init__(children)
+    def __init__(self, builder, module, operation, children=[]):
+        super().__init__(children, builder, module)
         self.op = operation
 
-    def evaluate_node(self):
+    def eval(self):
         # evaluate the expression and return the results
         (lvalue, rvalue) = self._evaluate_leaves()
         if self.op == '+':
@@ -30,7 +30,7 @@ class BinaryOpNode(Node):
     def _evaluate_leaves(self):
         leaves = []
         for child in self.children:
-            child_value = child.evaluate_node()
+            child_value = child.eval()
             if type(child_value) is str:
                 child_value = find_value(child_value)
             leaves.append(child_value)
